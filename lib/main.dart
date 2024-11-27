@@ -12,6 +12,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 void main() async {
   await Motion.instance.initialize();
+  Motion.instance.setUpdateInterval(60.fps);
   runApp(const MyApp());
 }
 
@@ -51,6 +52,7 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
+
 class _MyHomePageState extends State<MyHomePage> {
   Future<void> LaunchUrl(String url) async {
     var thurl = Uri.parse(url);
@@ -61,6 +63,42 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+
+
+    Future<void> showPermissionRequestDialog(BuildContext context,
+        {required Function() onDone}) async {
+      return showDialog<void>(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+            title: const Text('权限申请'),
+            content: const Text(
+                '看起来你正在使用ios 13+版本浏览这个网站，您需要授予陀螺仪访问权限\n授予后网站会有更炫酷的效果'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () => Navigator.pop(context, 'Cancel'),
+                child: const Text('拒绝'),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                  Motion.instance.requestPermission();
+                },
+                child: const Text('同意'),
+              ),
+            ],
+          ));
+    }
+
+    if (Motion.instance.isPermissionRequired &&
+        !Motion.instance.isPermissionGranted) {
+      showPermissionRequestDialog(
+        context,
+        onDone: () {
+          setState(() {});
+        },
+      );
+    }
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       extendBody: true,
@@ -152,6 +190,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
+                          SizedBox(height: 10,),
                           Text(
                             '一名普通的大学生',
                             style: TextStyle(
