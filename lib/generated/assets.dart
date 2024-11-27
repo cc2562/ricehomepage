@@ -2,6 +2,7 @@
 class Assets {
   Assets._();
 
+  static const String assestBg = 'assest/bg.jpg';
   static const String assestBgri = 'assest/bgri.riv';
   static const String assestShapes = 'assest/shapes.riv';
   static const String fontsHealthy = 'assest/fonts/healthy.ttf';
