@@ -4,12 +4,14 @@ import 'package:blurrycontainer/blurrycontainer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:motion/motion.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:ricehomepage/generated/assets.dart';
 import 'package:rive/rive.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 void main() async {
+  await Motion.instance.initialize();
   runApp(const MyApp());
 }
 
@@ -62,33 +64,17 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       extendBody: true,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        actions: [
-          IconButton(
-              onPressed: () {},
-              icon: FaIcon(
-                FontAwesomeIcons.question,
-                color: Colors.white,
-              ))
-        ],
-      ),
       body: Container(
-        color: Colors.black87,
+        decoration: BoxDecoration(
+          color: Colors.black87,
+          image: DecorationImage(image: AssetImage(Assets.assestBg),fit: BoxFit.cover)
+        ),
         child: Stack(
           children: [
             Positioned.fill(
               child: BackdropFilter(
                 filter: ImageFilter.blur(sigmaX: 30, sigmaY: 20),
-                child: const SizedBox(),
-              ),
-            ),
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height,
-              child: const RiveAnimation.asset(
-                fit: BoxFit.cover,
-                Assets.assestShapes,
+                child:  Container(color: Colors.black.withValues(alpha: 100),),
               ),
             ),
             Container(
@@ -105,311 +91,324 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: const SizedBox(),
               ),
             ),
-            SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                      padding: EdgeInsets.fromLTRB(20, 100, 10, 10),
+            Padding(
+              padding:   ResponsiveBreakpoints.of(context).isTablet
+    ? EdgeInsets.fromLTRB(20, 100, 20, 0):EdgeInsets.fromLTRB(120, 100, 120, 0),
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Hi~\nTERE IS',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w900,
+                                fontSize:
+                                ResponsiveBreakpoints.of(context).isTablet
+                                    ? 60
+                                    : 120,
+                                color: Colors.white,
+                                height: 1,
+                                letterSpacing: 8,
+                              ),
+                            ).animate().fadeIn(duration: 1.seconds),
+                            SizedBox(height: 10,),
+                            Text(
+                              'CCRICE',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w900,
+                                fontSize:
+                                ResponsiveBreakpoints.of(context).isTablet
+                                    ? 80
+                                    : 180,
+                                color: Colors.white,
+                                height: 1,
+                                letterSpacing: 8,
+                              ),
+                            )
+                                .animate(
+                                onPlay: (controller) =>
+                                    controller.repeat(reverse: false))
+                                .saturate(delay: 0.5.seconds, duration: 0.5.seconds)
+                                .then() // set baseline time to previous effect's end time
+                                .tint(color: const Color(0xFF80DDFF))
+                                .then(delay: 1.seconds)
+                                .tint(color: const Color(0xffaacf53))
+                                .then(delay: 1.seconds)
+                                .tint(color: Color(0xffeb6ea5))
+                                .then(delay: 1.seconds)
+                                .tint(color: Colors.white)
+                          ],
+                        )),
+                    Container(
+                      padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Text(
-                            'Hi~\nTERE IS',
+                            '一名普通的大学生',
                             style: TextStyle(
-                              fontWeight: FontWeight.w900,
-                              fontSize:
-                                  ResponsiveBreakpoints.of(context).isTablet
-                                      ? 80
-                                      : 120,
+                              fontSize: 40,
                               color: Colors.white,
                               height: 1,
                               letterSpacing: 0,
                             ),
-                          ).animate().fadeIn(duration: 1.seconds),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
                           Text(
-                            'CCRICE',
+                            '喜欢玩游戏、看动漫，热衷于尝试各种新鲜的东西。会些一些简单的代码，目前基本掌握的编程语言大概只有Dart和与她配套的Flutter',
                             style: TextStyle(
-                              fontWeight: FontWeight.w900,
-                              fontSize:
-                                  ResponsiveBreakpoints.of(context).isTablet
-                                      ? 100
-                                      : 180,
+                              fontSize: 20,
                               color: Colors.white,
-                              height: 1,
-                             // letterSpacing: 0,
+                              letterSpacing: 0,
                             ),
-                          )
-                              .animate(
-                                  onPlay: (controller) =>
-                                      controller.repeat(reverse: false))
-                              .saturate(delay: 0.5.seconds, duration: 1.seconds)
-                              .then() // set baseline time to previous effect's end time
-                              .tint(color: const Color(0xFF80DDFF))
-                              .then(delay: 1.seconds)
-                              .tint(color: const Color(0xffaacf53))
-                              .then(delay: 1.seconds)
-                              .tint(color: Color(0xffeb6ea5))
-                              .then(delay: 1.seconds)
-                              .tint(color: Colors.white)
-                        ],
-                      )),
-                  Container(
-                    padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text(
-                          '一名普通的大学生',
-                          style: TextStyle(
-                            fontSize: 40,
-                            color: Colors.white,
-                            height: 1,
-                            letterSpacing: 0,
                           ),
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Text(
-                          '喜欢玩游戏、看动漫，热衷于尝试各种新鲜的东西。会些一些简单的代码，目前基本掌握的编程语言大概只有Dart和与她配套的Flutter',
-                          style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.white,
-                            letterSpacing: 0,
+                          SizedBox(
+                            height: 30,
                           ),
-                        ),
-                        SizedBox(
-                          height: 50,
-                        ),
-                        Row(
-                          children: [
-                            SizedBox(
-                              height: 50,
-                              child: ElevatedButton.icon(
-                                onPressed: () {
-                                  LaunchUrl('https://world.ccrice.com');
-                                },
-                                label: Text("小世界"),
-                                icon: FaIcon(
-                                  FontAwesomeIcons.blog,
-                                  color: Colors.white,
-                                ),
-                                style: ElevatedButton.styleFrom(
-                                  foregroundColor: Colors.white,
-                                  backgroundColor: Color(0xff7ebea5),
-                                  //change text color of button
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(25),
+                          Row(
+                            children: [
+                              SizedBox(
+                                height: 50,
+                                child: ElevatedButton.icon(
+                                  onPressed: () {
+                                    LaunchUrl('https://world.ccrice.com');
+                                  },
+                                  label: Text("小世界"),
+                                  icon: FaIcon(
+                                    FontAwesomeIcons.blog,
+                                    color: Colors.white,
                                   ),
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            SizedBox(
-                              height: 50,
-                              child: ElevatedButton.icon(
-                                onPressed: () {
-                                  LaunchUrl('https://box.ccrice.com');
-                                },
-                                label: Text("小仓库"),
-                                icon: FaIcon(
-                                  FontAwesomeIcons.boxArchive,
-                                  color: Colors.white,
-                                ),
-                                style: ElevatedButton.styleFrom(
-                                  foregroundColor: Colors.white,
-                                  backgroundColor: Color(0xff745399),
-                                  //change text color of button
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(25),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            SizedBox(
-                              height: 50,
-                              child: ElevatedButton.icon(
-                                onPressed: () {
-                                  LaunchUrl('https://github.com/cc2562');
-                                },
-                                label: Text("Github"),
-                                icon: FaIcon(
-                                  FontAwesomeIcons.github,
-                                  color: Colors.white,
-                                ),
-                                style: ElevatedButton.styleFrom(
-                                  foregroundColor: Colors.white,
-                                  backgroundColor: Colors.black87,
-                                  //change text color of button
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(25),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 50,
-                        ),
-                        Padding(
-                          padding: ResponsiveBreakpoints.of(context).isTablet
-                              ? EdgeInsets.fromLTRB(10, 10, 10, 10)
-                              : EdgeInsets.fromLTRB(120, 10, 120, 10),
-                          child: BlurryContainer(
-                            width: MediaQuery.of(context).size.width,
-                            blur: 50,
-                            color: Colors.white.withValues(alpha: 180),
-                            child: Container(
-                              padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
-                              decoration: BoxDecoration(),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "技能点",
-                                    style: TextStyle(
-                                        fontSize: 25, color: Colors.white),
-                                  ),
-                                  MediaQuery.removePadding(
-                                    context: context,
-                                    child: GridView(
-                                      shrinkWrap: true,
-                                      gridDelegate:
-                                          SliverGridDelegateWithFixedCrossAxisCount(
-                                              crossAxisCount:
-                                                  ResponsiveBreakpoints.of(
-                                                              context)
-                                                          .smallerThan('4K')
-                                                      ? 1
-                                                      : 2,
-                                              childAspectRatio:
-                                                  ResponsiveBreakpoints.of(
-                                                              context)
-                                                          .isTablet
-                                                      ? 10
-                                                      : 20,
-                                              crossAxisSpacing: 20,
-                                              mainAxisSpacing: 0),
-                                      children: [
-                                        Column(
-                                          mainAxisSize: MainAxisSize.max,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              "Flutter",
-                                              style: TextStyle(
-                                                  color: Colors.white),
-                                            ),
-                                            SizedBox(
-                                              height: 3,
-                                            ),
-                                            SizedBox(
-                                              child: LinearProgressIndicator(
-                                                value: 0.7,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        Column(
-                                          mainAxisSize: MainAxisSize.max,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              "PHP",
-                                              style: TextStyle(
-                                                  color: Colors.white),
-                                            ),
-                                            SizedBox(
-                                              height: 3,
-                                            ),
-                                            SizedBox(
-                                              height: 5,
-                                              child: LinearProgressIndicator(
-                                                value: 0.5,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        Column(
-                                          mainAxisSize: MainAxisSize.max,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              "Python",
-                                              style: TextStyle(
-                                                  color: Colors.white),
-                                            ),
-                                            SizedBox(
-                                              height: 3,
-                                            ),
-                                            SizedBox(
-                                              height: 5,
-                                              child: LinearProgressIndicator(
-                                                value: 0.3,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        Column(
-                                          mainAxisSize: MainAxisSize.max,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              "玩游戏",
-                                              style: TextStyle(
-                                                  color: Colors.white),
-                                            ),
-                                            SizedBox(
-                                              height: 3,
-                                            ),
-                                            SizedBox(
-                                              height: 5,
-                                              child: LinearProgressIndicator(
-                                                value: 0.9,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        Text(
-                                          "什么都会一些，又什么都不会",
-                                          style: TextStyle(color: Colors.white),
-                                        ),
-                                      ],
+                                  style: ElevatedButton.styleFrom(
+                                    foregroundColor: Colors.white,
+                                    backgroundColor: Color(0xff7ebea5),
+                                    //change text color of button
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(25),
                                     ),
                                   ),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              SizedBox(
+                                height: 50,
+                                child: ElevatedButton.icon(
+                                  onPressed: () {
+                                    LaunchUrl('https://box.ccrice.com');
+                                  },
+                                  label: Text("小仓库"),
+                                  icon: FaIcon(
+                                    FontAwesomeIcons.boxArchive,
+                                    color: Colors.white,
+                                  ),
+                                  style: ElevatedButton.styleFrom(
+                                    foregroundColor: Colors.white,
+                                    backgroundColor: Color(0xff745399),
+                                    //change text color of button
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(25),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              SizedBox(
+                                height: 50,
+                                child: ElevatedButton.icon(
+                                  onPressed: () {
+                                    LaunchUrl('https://github.com/cc2562');
+                                  },
+                                  label: Text("Github"),
+                                  icon: FaIcon(
+                                    FontAwesomeIcons.github,
+                                    color: Colors.white,
+                                  ),
+                                  style: ElevatedButton.styleFrom(
+                                    foregroundColor: Colors.white,
+                                    backgroundColor: Colors.black87,
+                                    //change text color of button
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(25),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 30,
+                          ),
+                          Padding(
+                            padding: ResponsiveBreakpoints.of(context).isTablet
+                                ? EdgeInsets.fromLTRB(10, 10, 10, 10)
+                                : EdgeInsets.fromLTRB(120, 10, 120, 10),
+                            child:Motion.elevated(
+                              elevation: 99,
+                              glare: false,
+                              filterQuality: FilterQuality.high,
+                              controller: MotionController(
+                                damping: 1
+                              ),
+                              child:  BlurryContainer(
+                                width: MediaQuery.of(context).size.width,
+                                blur: 0,
+                                color: Colors.black54.withValues(alpha: 180),
+                                child: Container(
+                                  padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                                  decoration: BoxDecoration(),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "技能点",
+                                        style: TextStyle(
+                                            fontSize: 25, color: Colors.white),
+                                      ),
+                                      MediaQuery.removePadding(
+                                        context: context,
+                                        child: GridView(
+                                          shrinkWrap: true,
+                                          gridDelegate:
+                                          SliverGridDelegateWithFixedCrossAxisCount(
+                                              crossAxisCount:
+                                              ResponsiveBreakpoints.of(
+                                                  context)
+                                                  .smallerThan('4K')
+                                                  ? 1
+                                                  : 2,
+                                              childAspectRatio:
+                                              ResponsiveBreakpoints.of(
+                                                  context)
+                                                  .isTablet
+                                                  ? 10
+                                                  : 20,
+                                              crossAxisSpacing: 20,
+                                              mainAxisSpacing: 0),
+                                          children: [
+                                            Column(
+                                              mainAxisSize: MainAxisSize.max,
+                                              mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                              crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  "Flutter",
+                                                  style: TextStyle(
+                                                      color: Colors.white),
+                                                ),
+                                                SizedBox(
+                                                  height: 3,
+                                                ),
+                                                SizedBox(
+                                                  child: LinearProgressIndicator(
+                                                    value: 0.7,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            Column(
+                                              mainAxisSize: MainAxisSize.max,
+                                              mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                              crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  "PHP",
+                                                  style: TextStyle(
+                                                      color: Colors.white),
+                                                ),
+                                                SizedBox(
+                                                  height: 3,
+                                                ),
+                                                SizedBox(
+                                                  height: 5,
+                                                  child: LinearProgressIndicator(
+                                                    value: 0.5,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            Column(
+                                              mainAxisSize: MainAxisSize.max,
+                                              mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                              crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  "Python",
+                                                  style: TextStyle(
+                                                      color: Colors.white),
+                                                ),
+                                                SizedBox(
+                                                  height: 3,
+                                                ),
+                                                SizedBox(
+                                                  height: 5,
+                                                  child: LinearProgressIndicator(
+                                                    value: 0.3,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            Column(
+                                              mainAxisSize: MainAxisSize.max,
+                                              mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                              crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  "玩游戏",
+                                                  style: TextStyle(
+                                                      color: Colors.white),
+                                                ),
+                                                SizedBox(
+                                                  height: 3,
+                                                ),
+                                                SizedBox(
+                                                  height: 5,
+                                                  child: LinearProgressIndicator(
+                                                    value: 0.9,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            Text(
+                                              "什么都会一些，又什么都不会",
+                                              style: TextStyle(color: Colors.white),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
 
-                                ],
+                                    ],
+                                  ),
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                        SizedBox(height: 100,),
-                      ],
+                          SizedBox(height: 100,),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
             Container(
