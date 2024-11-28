@@ -347,6 +347,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                       MediaQuery.removePadding(
                                         context: context,
                                         child: GridView(
+                                          physics: NeverScrollableScrollPhysics(),
                                           shrinkWrap: true,
                                           gridDelegate:
                                               SliverGridDelegateWithFixedCrossAxisCount(
@@ -513,6 +514,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                             rememberFutureResult: true,
                                             whenDone: (List linklist){
                                               return  GridView.builder(
+                                                physics: NeverScrollableScrollPhysics(),
                                                 shrinkWrap: true,
                                                 gridDelegate:
                                                 SliverGridDelegateWithFixedCrossAxisCount(
