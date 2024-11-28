@@ -1,0 +1,56 @@
+{
+  "name": "CCRICE",
+  "title": "Hi~\nTHERE IS",
+  "subtitle": "一个普通的大学生",
+  "description": "喜欢玩游戏、看动漫，热衷于尝试各种新鲜的东西。会些一些简单的代码，目前基本掌握的编程语言大概只有Dart和与她配套的Flutter~",
+  "backgroundImage":"assest/bg.jpg",
+  "blogButton": [
+    {
+      "name":"小世界",
+      "url": "https://world.ccrice.com",
+      "icon": "blog",
+      "iconColor": "0xFFFFFFFF",
+      "backgroundColor": "0xff7ebea5",
+      "textColor": "0xFFFFFFFF"
+    },
+    {
+      "name":"小仓库",
+      "url": "https://box.ccrice.com",
+      "icon": "boxArchive",
+      "iconColor": "0xFFFFFFFF",
+      "backgroundColor": "0xff745399",
+      "textColor": "0xFFFFFFFF"
+    },
+    {
+      "name":"Github",
+      "url": "https://github.com/cc2562",
+      "icon": "github",
+      "iconColor": "0xFFFFFFFF",
+      "backgroundColor": "0xDD000000",
+      "textColor": "0xFFFFFFFF"
+    }
+  ],
+  "footer": "Copyright © 2024 CCRICE. All Rights Reserved.",
+  "ability": [
+    {
+      "name": "Flutter",
+      "level": "0.8"
+    },
+    {
+      "name": "PHP",
+      "level": "0.6"
+    },
+    {
+      "name": "Python",
+      "level": "0.4"
+    },
+    {
+      "name": "Java",
+      "level": "0"
+    },
+    {
+      "name": "玩游戏",
+      "level": "0.9"
+    }
+  ]
+}

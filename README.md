@@ -68,3 +68,59 @@
     }
 ]
 ```
+
+## 个性化配置
+
+从当前版本开始，米饭的个人主页支持简单的个性化配置啦 
+
+只需要修改`config/init.json`文件即可
+
+按钮的图标使用**font awesome**，你可以在这里找到所有的图标：[https://fontawesome.com/icons](https://fontawesome.com/icons)
+使用图标时不需要加上前缀，例如`fa-github`只需要填写`github`即可
+
+```json
+{
+  "name": "CCRICE",
+  "title": "Hi~\nTHERE IS",
+  "subtitle": "一个普通的大学生",
+  "description": "喜欢玩游戏、看动漫，热衷于尝试各种新鲜的东西。会些一些简单的代码，目前基本掌握的编程语言大概只有Dart和与她配套的Flutter~",
+  "backgroundImage":"assest/bg.jpg", //背景图片 如果是其他域名的链接需要注意CORS限制
+  "blogButton": [
+    {
+      "name":"小世界",
+      "url": "https://world.ccrice.com",
+      "icon": "blog", //图标使用font awesome中的图标名称，不带前缀
+      "iconColor": "0xFFFFFFFF",
+      "backgroundColor": "0xff7ebea5",
+      "textColor": "0xFFFFFFFF"
+    },
+    {
+      "name":"小仓库",
+      "url": "https://box.ccrice.com",
+      "icon": "boxArchive",
+      "iconColor": "0xFFFFFFFF",
+      "backgroundColor": "0xff745399",
+      "textColor": "0xFFFFFFFF"
+    }
+  ],
+  "footer": "Copyright © 2024 CCRICE. All Rights Reserved.",
+  "ability": [
+    {
+      "name": "Flutter",
+      "level": "0.8"  //0-1之间的数字
+    },
+    {
+      "name": "PHP",
+      "level": "0.6"
+    }
+  ]
+}
+```
+
+## 预构建版本
+
+你可以在Release页面找到预构建版本,分为canvaskit和skwasm版本，两个版本唯一区别是渲染器不同，你可以根据你的需求选择使用哪一个。
+
+总的来说，skwasm版本性能可能更好，但会增加文件大小，wasm版本兼容性更好。
+
+关于渲染器的详细介绍请查看Flutter官方文档：[https://docs.flutter.cn/platform-integration/web/renderers](https://docs.flutter.cn/platform-integration/web/renderers)

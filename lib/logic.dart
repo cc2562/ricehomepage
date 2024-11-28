@@ -12,3 +12,12 @@ Future<List> getLinkList() async {
   return jsonList;
 
 }
+
+Future<Map> getGlobalSetting() async {
+  print("!!!");
+  final String globalJsonFile = await rootBundle.loadString(Assets.configInit);
+  print(globalJsonFile);
+  //var linkJsonFile =File(Assets.configLinks);
+  Map jsonMap = json.decode(globalJsonFile);
+  return jsonMap;
+}

@@ -19,7 +19,6 @@ class _linkcardState extends State<linkcard> with SingleTickerProviderStateMixin
   void initState() {
     // TODO: implement initState
     super.initState();
-    print(widget.data);
    // print(widget.data['link_name']);
     //dataMap  =json.decode(widget.data);
    // print(dataMap);

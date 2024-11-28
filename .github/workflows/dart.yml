@@ -1,0 +1,58 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+name: Dart
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build:
+    name: build
+    runs-on: windows-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      repository-projects: write
+
+
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: master
+      - run: flutter pub get
+      - name: 获取版本号
+        shell: pwsh
+        run: |
+          $version = (Get-Content pubspec.yaml -Raw) -match 'version:\s*([^\s]+)' | Out-Null
+          $version = $Matches[1] -replace '\+', '-'
+          echo "version=$version" | Out-File -Append -Encoding utf8 -FilePath $Env:GITHUB_ENV
+      - name: 打印版本号
+        run: |
+          echo "version: ${{ env.version }}"
+      - name: Build skwasm Web
+        run: flutter build web --web-renderer skwasm --no-web-resources-cdn
+      - name: zipped build
+        run: |
+          Compress-Archive -Path 'build\web' -DestinationPath 'releaseSkwasm.zip'
+      - name: Build canvaskit Web
+        run: flutter build web --web-renderer canvaskit --no-web-resources-cdn
+      - name: zipped build
+        run: |
+          Compress-Archive -Path 'build\web' -DestinationPath 'releaseCanvaskit.zip'
+      - name: Release
+        uses: ncipollo/release-action@v1
+        with:
+          tag: "v${{ env.version }}"
+          draft: false
+          artifacts: "*.zip"
+          allowUpdates: true
+          token: ${{ github.token }}
