@@ -1,12 +1,15 @@
 import 'dart:ui';
 
 import 'package:blurrycontainer/blurrycontainer.dart';
+import 'package:enhanced_future_builder/enhanced_future_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:motion/motion.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:ricehomepage/generated/assets.dart';
+import 'package:ricehomepage/linkcard.dart';
+import 'package:ricehomepage/logic.dart';
 import 'package:rive/rive.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -24,7 +27,15 @@ class MyApp extends StatelessWidget {
       title: 'CC米饭的空间站',
       theme: ThemeData(
         fontFamily: 'healthy',
-        fontFamilyFallback: ['Arial',"Noto Sans Symbols",'华文细黑','Microsoft YaHei','微软雅黑','Roboto','sans-serif'],
+        fontFamilyFallback: [
+          'Arial',
+          "Noto Sans Symbols",
+          '华文细黑',
+          'Microsoft YaHei',
+          '微软雅黑',
+          'Roboto',
+          'sans-serif'
+        ],
         colorScheme: ColorScheme.fromSeed(
             seedColor: Colors.deepPurple, brightness: Brightness.dark),
         useMaterial3: true,
@@ -52,7 +63,6 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-
 class _MyHomePageState extends State<MyHomePage> {
   Future<void> LaunchUrl(String url) async {
     var thurl = Uri.parse(url);
@@ -62,31 +72,36 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+  }
+
+  @override
   Widget build(BuildContext context) {
-
-
     Future<void> showPermissionRequestDialog(BuildContext context,
         {required Function() onDone}) async {
       return showDialog<void>(
           context: context,
           builder: (BuildContext context) => AlertDialog(
-            title: const Text('权限申请'),
-            content: const Text(
-                '看起来你正在使用ios 13+版本浏览这个网站，您需要授予陀螺仪访问权限\n授予后网站会有更炫酷的效果'),
-            actions: <Widget>[
-              TextButton(
-                onPressed: () => Navigator.pop(context, 'Cancel'),
-                child: const Text('拒绝'),
-              ),
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                  Motion.instance.requestPermission();
-                },
-                child: const Text('同意'),
-              ),
-            ],
-          ));
+                title: const Text('权限申请'),
+                content: const Text(
+                    '看起来你正在使用ios 13+版本浏览这个网站，您需要授予陀螺仪访问权限\n授予后网站会有更炫酷的效果'),
+                actions: <Widget>[
+                  TextButton(
+                    onPressed: () => Navigator.pop(context, 'Cancel'),
+                    child: const Text('拒绝'),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                      Motion.instance.requestPermission();
+                    },
+                    child: const Text('同意'),
+                  ),
+                ],
+              ));
     }
 
     if (Motion.instance.isPermissionRequired &&
@@ -104,15 +119,17 @@ class _MyHomePageState extends State<MyHomePage> {
       extendBody: true,
       body: Container(
         decoration: BoxDecoration(
-          color: Colors.black87,
-          image: DecorationImage(image: AssetImage(Assets.assestBg),fit: BoxFit.cover)
-        ),
+            color: Colors.black87,
+            image: DecorationImage(
+                image: AssetImage(Assets.assestBg), fit: BoxFit.cover)),
         child: Stack(
           children: [
             Positioned.fill(
               child: BackdropFilter(
                 filter: ImageFilter.blur(sigmaX: 30, sigmaY: 20),
-                child:  Container(color: Colors.black.withValues(alpha: 100),),
+                child: Container(
+                  color: Colors.black.withValues(alpha: 100),
+                ),
               ),
             ),
             Container(
@@ -130,15 +147,16 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
             Padding(
-              padding:  EdgeInsets.all(0),
+              padding: EdgeInsets.all(0),
               child: SingleChildScrollView(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                      padding:  ResponsiveBreakpoints.of(context).isTablet
-                          ? EdgeInsets.fromLTRB(20, 100, 20, 0):EdgeInsets.fromLTRB(120, 100, 120, 0),
+                        padding: ResponsiveBreakpoints.of(context).isTablet
+                            ? EdgeInsets.fromLTRB(20, 100, 20, 0)
+                            : EdgeInsets.fromLTRB(120, 100, 120, 0),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -147,32 +165,35 @@ class _MyHomePageState extends State<MyHomePage> {
                               style: TextStyle(
                                 fontWeight: FontWeight.w900,
                                 fontSize:
-                                ResponsiveBreakpoints.of(context).isTablet
-                                    ? 50
-                                    : 120,
+                                    ResponsiveBreakpoints.of(context).isTablet
+                                        ? 50
+                                        : 120,
                                 color: Colors.white,
                                 height: 1,
                                 letterSpacing: 8,
                               ),
                             ).animate().fadeIn(duration: 1.seconds),
-                            SizedBox(height: 10,),
+                            SizedBox(
+                              height: 10,
+                            ),
                             Text(
                               'CCRICE',
                               style: TextStyle(
                                 fontWeight: FontWeight.w900,
                                 fontSize:
-                                ResponsiveBreakpoints.of(context).isTablet
-                                    ? 70
-                                    : 180,
+                                    ResponsiveBreakpoints.of(context).isTablet
+                                        ? 70
+                                        : 180,
                                 color: Colors.white,
                                 height: 1,
                                 letterSpacing: 8,
                               ),
                             )
                                 .animate(
-                                onPlay: (controller) =>
-                                    controller.repeat(reverse: false))
-                                .saturate(delay: 0.5.seconds, duration: 0.5.seconds)
+                                    onPlay: (controller) =>
+                                        controller.repeat(reverse: false))
+                                .saturate(
+                                    delay: 0.5.seconds, duration: 0.5.seconds)
                                 .then() // set baseline time to previous effect's end time
                                 .tint(color: const Color(0xFF80DDFF))
                                 .then(delay: 1.seconds)
@@ -184,13 +205,16 @@ class _MyHomePageState extends State<MyHomePage> {
                           ],
                         )),
                     Container(
-                      padding:  ResponsiveBreakpoints.of(context).isTablet
-                          ? EdgeInsets.fromLTRB(10, 0, 10, 0):EdgeInsets.fromLTRB(120, 0, 120, 0),
+                      padding: ResponsiveBreakpoints.of(context).isTablet
+                          ? EdgeInsets.fromLTRB(10, 0, 10, 0)
+                          : EdgeInsets.fromLTRB(120, 0, 120, 0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          SizedBox(height: 10,),
+                          SizedBox(
+                            height: 10,
+                          ),
                           Text(
                             '一名普通的大学生',
                             style: TextStyle(
@@ -215,13 +239,13 @@ class _MyHomePageState extends State<MyHomePage> {
                             height: 30,
                           ),
                           Row(
-
                             children: [
                               SizedBox(
                                 height: 50,
                                 child: ElevatedButton.icon(
                                   onPressed: () {
                                     LaunchUrl('https://world.ccrice.com');
+                                   
                                   },
                                   label: Text("小世界"),
                                   icon: FaIcon(
@@ -291,18 +315,19 @@ class _MyHomePageState extends State<MyHomePage> {
                           SizedBox(
                             height: 30,
                           ),
+                          //技能点
                           Padding(
                             padding: ResponsiveBreakpoints.of(context).isTablet
                                 ? EdgeInsets.fromLTRB(10, 10, 10, 10)
-                                : EdgeInsets.fromLTRB(120, 10, 120, 10),
-                            child:Motion.elevated(
+                                : ResponsiveBreakpoints.of(context).isDesktop
+                                    ? EdgeInsets.fromLTRB(120, 10, 120, 10)
+                                    : EdgeInsets.fromLTRB(400, 10, 400, 10),
+                            child: Motion.elevated(
                               elevation: 99,
                               glare: false,
                               filterQuality: FilterQuality.high,
-                              controller: MotionController(
-                                damping: 1
-                              ),
-                              child:  BlurryContainer(
+                              controller: MotionController(damping: 1),
+                              child: BlurryContainer(
                                 width: MediaQuery.of(context).size.width,
                                 blur: 0,
                                 color: Colors.black54.withValues(alpha: 180),
@@ -310,7 +335,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                   padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
                                   decoration: BoxDecoration(),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       Text(
@@ -323,28 +349,28 @@ class _MyHomePageState extends State<MyHomePage> {
                                         child: GridView(
                                           shrinkWrap: true,
                                           gridDelegate:
-                                          SliverGridDelegateWithFixedCrossAxisCount(
-                                              crossAxisCount:
-                                              ResponsiveBreakpoints.of(
-                                                  context)
-                                                  .smallerThan('4K')
-                                                  ? 1
-                                                  : 2,
-                                              childAspectRatio:
-                                              ResponsiveBreakpoints.of(
-                                                  context)
-                                                  .isTablet
-                                                  ? 10
-                                                  : 20,
-                                              crossAxisSpacing: 20,
-                                              mainAxisSpacing: 0),
+                                              SliverGridDelegateWithFixedCrossAxisCount(
+                                                  crossAxisCount:
+                                                      ResponsiveBreakpoints.of(
+                                                                  context)
+                                                              .smallerThan('4K')
+                                                          ? 1
+                                                          : 2,
+                                                  childAspectRatio:
+                                                      ResponsiveBreakpoints.of(
+                                                                  context)
+                                                              .isTablet
+                                                          ? 10
+                                                          : 15,
+                                                  crossAxisSpacing: 20,
+                                                  mainAxisSpacing: 0),
                                           children: [
                                             Column(
                                               mainAxisSize: MainAxisSize.max,
                                               mainAxisAlignment:
-                                              MainAxisAlignment.center,
+                                                  MainAxisAlignment.center,
                                               crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                                  CrossAxisAlignment.start,
                                               children: [
                                                 Text(
                                                   "Flutter",
@@ -355,7 +381,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                                   height: 3,
                                                 ),
                                                 SizedBox(
-                                                  child: LinearProgressIndicator(
+                                                  child:
+                                                      LinearProgressIndicator(
                                                     value: 0.7,
                                                   ),
                                                 ),
@@ -364,9 +391,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                             Column(
                                               mainAxisSize: MainAxisSize.max,
                                               mainAxisAlignment:
-                                              MainAxisAlignment.center,
+                                                  MainAxisAlignment.center,
                                               crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                                  CrossAxisAlignment.start,
                                               children: [
                                                 Text(
                                                   "PHP",
@@ -378,7 +405,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 ),
                                                 SizedBox(
                                                   height: 5,
-                                                  child: LinearProgressIndicator(
+                                                  child:
+                                                      LinearProgressIndicator(
                                                     value: 0.5,
                                                   ),
                                                 ),
@@ -387,9 +415,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                             Column(
                                               mainAxisSize: MainAxisSize.max,
                                               mainAxisAlignment:
-                                              MainAxisAlignment.center,
+                                                  MainAxisAlignment.center,
                                               crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                                  CrossAxisAlignment.start,
                                               children: [
                                                 Text(
                                                   "Python",
@@ -401,7 +429,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 ),
                                                 SizedBox(
                                                   height: 5,
-                                                  child: LinearProgressIndicator(
+                                                  child:
+                                                      LinearProgressIndicator(
                                                     value: 0.3,
                                                   ),
                                                 ),
@@ -410,9 +439,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                             Column(
                                               mainAxisSize: MainAxisSize.max,
                                               mainAxisAlignment:
-                                              MainAxisAlignment.center,
+                                                  MainAxisAlignment.center,
                                               crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                                  CrossAxisAlignment.start,
                                               children: [
                                                 Text(
                                                   "玩游戏",
@@ -424,7 +453,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 ),
                                                 SizedBox(
                                                   height: 5,
-                                                  child: LinearProgressIndicator(
+                                                  child:
+                                                      LinearProgressIndicator(
                                                     value: 0.9,
                                                   ),
                                                 ),
@@ -432,19 +462,96 @@ class _MyHomePageState extends State<MyHomePage> {
                                             ),
                                             Text(
                                               "什么都会一些，又什么都不会",
-                                              style: TextStyle(color: Colors.white),
+                                              style: TextStyle(
+                                                  color: Colors.white),
                                             ),
                                           ],
                                         ),
                                       ),
-
                                     ],
                                   ),
                                 ),
                               ),
                             ),
                           ),
-                          SizedBox(height: 180,),
+                          //友情链接
+                          SizedBox(
+                            height: 15,
+                          ),
+                          Padding(
+                            padding: ResponsiveBreakpoints.of(context).isTablet
+                                ? EdgeInsets.fromLTRB(10, 10, 10, 10)
+                                : ResponsiveBreakpoints.of(context).isDesktop
+                                    ? EdgeInsets.fromLTRB(120, 10, 120, 10)
+                                    : EdgeInsets.fromLTRB(400, 10, 400, 10),
+                            child: Motion.elevated(
+                              elevation: 99,
+                              glare: false,
+                              filterQuality: FilterQuality.high,
+                              controller: MotionController(damping: 1),
+                              child: BlurryContainer(
+                                width: MediaQuery.of(context).size.width,
+                                blur: 0,
+                                color: Colors.black54.withValues(alpha: 180),
+                                child: Container(
+                                  padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                                  decoration: BoxDecoration(),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "好朋友",
+                                        style: TextStyle(
+                                            fontSize: 25, color: Colors.white),
+                                      ),
+                                      MediaQuery.removePadding(
+                                        context: context,
+                                        child:EnhancedFutureBuilder(
+                                            future: getLinkList(),
+                                            rememberFutureResult: true,
+                                            whenDone: (List linklist){
+                                              return  GridView.builder(
+                                                shrinkWrap: true,
+                                                gridDelegate:
+                                                SliverGridDelegateWithFixedCrossAxisCount(
+                                                    crossAxisCount:
+                                                    ResponsiveBreakpoints.of(
+                                                        context)
+                                                        .isTablet
+                                                        ? 2
+                                                        : ResponsiveBreakpoints
+                                                        .of(
+                                                        context)
+                                                        .isDesktop
+                                                        ? 3
+                                                        : 4,
+                                                    childAspectRatio:
+                                                    ResponsiveBreakpoints.of(
+                                                        context)
+                                                        .isTablet
+                                                        ? 2
+                                                        : 3,
+                                                    crossAxisSpacing: 10,
+                                                    mainAxisSpacing: 10),
+                                                itemBuilder: (BuildContext context, int index) {
+                                                  return linkcard(data: linklist[index],);
+                                                },
+                                                itemCount: linklist.length,
+                                              );
+                                            },
+                                            whenNotDone: Text("Loading")),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 180,
+                          ),
                         ],
                       ),
                     ),
