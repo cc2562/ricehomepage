@@ -265,7 +265,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                       },
                                       label: Text(i['name']),
                                       icon: FaIcon(
-                                        FontAwesomeIconHelper.getIconData('blog'),
+                                        FontAwesomeIconHelper.getIconData(i['icon']),
                                         color: Color(int.parse(i['iconColor'])),
                                       ),
                                       style: ElevatedButton.styleFrom(
