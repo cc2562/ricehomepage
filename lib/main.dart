@@ -552,7 +552,31 @@ class _MyHomePageState extends State<MyHomePage> {
                             ),
                           ),
                           SizedBox(
-                            height: 180,
+                            height: 80,
+                          ),
+                          Container(
+                            padding: EdgeInsets.fromLTRB(20, 0, 20, 20),
+                            width: MediaQuery.of(context).size.width,
+                           // height: 80,
+                            //color: Colors.white.withValues(alpha: 180),
+                            child: Flex(
+                              direction: Axis.horizontal,
+                              children: [
+                                Expanded(
+                                    child: Text(
+                                      "Copyright © 2024 CC米饭",
+                                      style: TextStyle(color: Colors.white),
+                                    )),
+                                Expanded(
+                                    child: Container(
+                                      alignment: Alignment.centerRight,
+                                      child: Text(
+                                        "由Flutter强力驱动",
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                    ))
+                              ],
+                            ),
                           ),
                         ],
                       ),
@@ -561,35 +585,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
             ),
-            Container(
-              alignment: Alignment.bottomCenter,
-              height: MediaQuery.of(context).size.height,
-              width: MediaQuery.of(context).size.width,
-              child: Container(
-                padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-                width: MediaQuery.of(context).size.width,
-                height: 80,
-                //color: Colors.white.withValues(alpha: 180),
-                child: Flex(
-                  direction: Axis.horizontal,
-                  children: [
-                    Expanded(
-                        child: Text(
-                      "Copyright © 2024 CC米饭",
-                      style: TextStyle(color: Colors.white),
-                    )),
-                    Expanded(
-                        child: Container(
-                      alignment: Alignment.centerRight,
-                      child: Text(
-                        "由Flutter强力驱动",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ))
-                  ],
-                ),
-              ),
-            )
+
           ],
         ),
       ),

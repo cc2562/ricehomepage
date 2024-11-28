@@ -52,3 +52,19 @@
 2. 运行`flutter pub get`
 3. 更具需求更改`main.dart`中的相关内容
 4. 使用命令`flutter build web --web-renderer canvaskit --no-web-resources-cdn`进行构建
+
+## 如何使用友情链接功能
+1. 配置`config/links.json`文件
+2. 按照以下模板配置
+```json
+[
+    {
+        "link_id": "1", //id可以随意填写
+        "link_url": "https://www.ccrice.com",
+        "link_name": "CC米饭",
+        "link_image": "图像直链",
+        "link_target": "_blank", //目前没有作用 可不填
+        "link_description": "是CC米饭的博客~" //描述
+    }
+]
+```

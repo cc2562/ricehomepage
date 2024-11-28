@@ -29,6 +29,7 @@ class _linkcardState extends State<linkcard> with SingleTickerProviderStateMixin
     myAnimation = Tween<double>(begin: 0, end: 200).animate(controller);
   }
 
+  
   @override
   void dispose() {
     // TODO: implement dispose
@@ -48,6 +49,7 @@ class _linkcardState extends State<linkcard> with SingleTickerProviderStateMixin
 
   @override
   Widget build(BuildContext context) {
+    String name=widget.data['link_name'];
     return InkWell(
       onHover: (v){
         _hover(v);
@@ -77,7 +79,8 @@ class _linkcardState extends State<linkcard> with SingleTickerProviderStateMixin
               Expanded(
                 flex: 2,
                 child: CircleAvatar(
-                  backgroundImage: NetworkImage(widget.data['link_image']),
+                  child: Text(name.substring(0,1)),
+                  foregroundImage: NetworkImage(widget.data['link_image']),
                   radius: 40,
                 ),
               ),
