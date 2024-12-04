@@ -38,11 +38,6 @@ jobs:
       - name: 打印版本号
         run: |
           echo "version: ${{ env.version }}"
-      - name: Build skwasm Web
-        run: flutter build web --web-renderer skwasm --no-web-resources-cdn
-      - name: zipped build
-        run: |
-          Compress-Archive -Path 'build\web' -DestinationPath 'releaseSkwasm.zip'
       - name: Build canvaskit Web
         run: flutter build web --web-renderer canvaskit --no-web-resources-cdn
       - name: zipped build
