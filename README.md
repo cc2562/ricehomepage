@@ -124,3 +124,7 @@
 总的来说，skwasm版本性能可能更好，但会增加文件大小，wasm版本兼容性更好。
 
 关于渲染器的详细介绍请查看Flutter官方文档：[https://docs.flutter.cn/platform-integration/web/renderers](https://docs.flutter.cn/platform-integration/web/renderers)
+
+## 关于CORS的问题
+在配置友情链接图片的时候可能会遇到CORS问题，目前的解决办法是把友链的图片下载到本地。你可以先按照原来的方法配置好links.json文件，然后把图片下载到本地，然后把图片的路径改为本地的路径，
+之后使用script文件夹中的downimg.py脚本，自动把配置文件中的图片下载到本地并且自动修改图片链接。
